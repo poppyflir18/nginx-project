@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function makeTable() {
+            var fragment = document.createDocumentFragment();
+
+
+            var target = document.getElementById('target');
+            target.appendChild(fragment);
+        }
+
+        window.addEventListener('load', (event) => {
+            fetch('http://localhost:6868/api/articles')
+                .then(response => response.json())
+                .then(data => {
+                    let tbody = document.getElementById('body');
+
+                    let fragment = document.createDocumentFragment();
+
+                    data.forEach((e) => {
+                        let row = document.createElement('tr');
+                        fragment.appendChild(row);
+                        Object.values(e).forEach(v => {
+                            let cell = document.createElement('td');
+                            cell.innerHTML = v;
+                            row.appendChild(cell);
+                        })
+                    })
+                    tbody.appendChild(fragment);
+                });
+        });
+    </script>
+    <style>
+        body {
+            background-color: yellowgreen;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        tr {
+            border-color: 3px solid rgba(0, 0, 0, 0.99);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2> My Static Web Page </h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>title</th>
+                    <th>description</th>
+                    <th>published</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>New title</th>
+                    <th>New description</th>
+                    <th>New published</th>
+                </tr>
+            </thead>
+            <tbody id="body">
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
